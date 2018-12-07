@@ -1,0 +1,144 @@
+{#Code pour la barre de navigation#}
+
+    <!DOCTYPE html>
+    <html>
+    
+    
+       
+        <head>
+        <link  rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+            <meta charset="UTF-8">
+            <div style="text-align:center; color:#E08919">
+           
+            <title>
+            {% block title %}Welcome!{% endblock %}
+            </div></title>
+    <style>
+    
+    body {
+    	background-image: url("/zarzis.jpg");
+    	background-size :cover;
+    }
+    
+    table {background-color:rgba(99, 99, 71, 0.5);
+        color: white;}
+    
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #FF8C00;
+    }
+    
+    li {
+        float: left;
+        border-right:1px solid #bbb;
+    }
+    
+    
+    li:last-child {
+        border-right: none;
+    }
+    
+    li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+    
+    li a:hover:not(.active) {
+        background-color: #FFA500;
+    }
+    
+    .active {
+        background-color: #4CAF50;
+    }
+    h1, h2, h3, h4, h5, h6 {font-family: "Comic Sans MS", cursive, sans-serif;
+    font-size: 48px;
+    letter-spacing: 1px;
+    word-spacing: 0.4px;
+    color: #FFFFFF;
+    font-weight: 700;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+    }
+    h8 {font-family: "#Futura";
+  
+    color:#FF4040;
+    
+    }
+    h9 {font-family: "Cambria";
+    font-size: 48px;
+    letter-spacing: 1px;
+    word-spacing: 0.4px;
+    color:#FF4040;
+    font-weight: 700;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+    }
+    .Dahou{
+        border-radius: 150px;}
+        .bhari {
+        background:black;}
+    </style>
+     
+     
+           
+            {% block stylesheets %}{% endblock %}
+        </head>
+        <body>
+        <ul>
+        <li><a style="float:right" href="/">🏠</a></li>
+        <li><a href="/home">Nos programmations</a></li>
+        <li><a href="/monpanier">Mon Panier</a></li>
+        
+        {% if is_granted('ROLE_ADMIN') %}
+        <li><a href="/admin/etape">Nos étapes</a></li>
+        <li><a href="/admin/circuit">Nos circuits</a></li>
+        <li style="float:right"><a href="/logout">Se déconnecter</a></li>
+          
+        {% elseif is_granted('ROLE_USER')  %}
+         <li style="float:right"><a href="/logout">Se déconnecter</a></li>
+         <li style="float:right"><a>Bonjour {#{ username }#}</a></li>
+         
+        {% else  %}
+        <li style="float:right"><a href="/login">Se connecter</a></li>
+        {% endif  %}
+          
+    </ul>
+  {#Fin du code pour la barre de navigation#}  
+    
+            {% block body %}
+    	{% block menu %}{% endblock %} {# menu #}	
+    
+        {% block main %}MAIN{% endblock %} {# main #}
+    
+    	    {% endblock %} {# body #}
+    
+    	{% block footer %}
+    	
+    	{% endblock %} {# footer #}
+    
+    	{% block javascripts %}
+    	{% endblock %} {# javascripts #}
+    	{% block custompage_script %}
+        {% endblock %} {# custompage_scripts #}
+        	
+    {% for message in app.flashes('notice') %}
+        <div class="alert alert-info">
+            {{ message }}
+        </div>
+    {% endfor %}
+    
+    <br>
+    <br>
+    </html>

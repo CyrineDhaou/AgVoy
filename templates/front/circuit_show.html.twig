@@ -1,0 +1,145 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	
+	<h1>Circuit Programmé : {{programmationcircuit.circuit.description}}</h1>
+	
+  <head>
+  <style>
+  .bg-1 {
+       background-color: #1abc9c; /* Green */
+        color: #ffffff;
+    }
+  </style>
+</head>
+
+<body>
+  	
+<img src="/{{ programmationcircuit.circuit.getDescription() }}.jpg" style="width:20%">
+        
+ <br>
+<br>
+<br>   
+	
+ <div class="panel-group" id="accordion">
+ 
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+        Id</a>
+      </h4>
+    </div>
+    <div id="collapse1" class="panel-collapse collapse">
+      <div class="panel-body">{{ programmationcircuit.circuit.id }}</div>
+    </div>
+  </div>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+        Description</a>
+      </h4>
+    </div>
+    <div id="collapse2" class="panel-collapse collapse">
+      <div class="panel-body">{{ programmationcircuit.circuit.description }}</div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+        Où commence le circuit ?</a>
+      </h4>
+    </div>
+    <div id="collapse3" class="panel-collapse collapse">
+      <div class="panel-body">{{ programmationcircuit.circuit.villeDepart }}, {{ programmationcircuit.circuit.paysDepart }}</div>
+    </div>
+  </div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
+        Où finit le circuit ? </a>
+      </h4>
+    </div>
+    <div id="collapse4" class="panel-collapse collapse">
+      <div class="panel-body">{{ programmationcircuit.circuit.villeArrivee }}</div>
+    </div>
+  </div>
+ 
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse5">
+        Quelle est la durée du circuit ?</a>
+      </h4>
+    </div>
+    <div id="collapse5" class="panel-collapse collapse">
+      <div class="panel-body">{{ programmationcircuit.circuit.dureeCircuit }}</div>
+    </div>
+  </div>
+  
+    <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse6">
+        Combien allez vous payer ?</a>
+      </h4>
+    </div>
+    <div id="collapse6" class="panel-collapse collapse">
+      <div class="panel-body">{{ programmationcircuit.prix }}</div>
+    </div>
+  </div>
+  
+    
+    <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse7">
+        Quels endroits allez vous visiter ?</a>
+      </h4>
+    </div>
+    <div id="collapse7" class="panel-collapse collapse">
+      <div class="panel-body">
+      <table class="table">
+  <thead>
+    <tr>
+        <th><center>Numéro Etape</center></th>
+        <th><center>Ville Etape</center></th>
+        <th><center>Nombre Jours</center></th>
+    </tr>
+  </thead>
+
+  {%  for etape in programmationcircuit.circuit.etapes %}
+  <tr>
+    <td><center>{{ etape.numeroEtape }}</center></td>
+    <td><center>{{ etape.villeEtape }}</center></td>
+    <td><center>{{ etape.nombreJours }}</center></td>
+    
+  </tr>
+  {% endfor %} {# etapes #}
+  
+</table>
+</div>
+    </div>
+  </div>
+  
+ </div>
+</body>
+
+
+
+<br>
+{% if programmationcircuit.id in likes %}
+    <a href="{{ path('likes', {id: programmationcircuit.circuit.id}) }}" class="btn btn-default">💔</a>
+{% else %}
+    <a href="{{ path('likes', {id: programmationcircuit.circuit.id}) }}" class="btn btn-default">💓</a>
+{% endif %}
+<br>
+<a href="{{ path('frontoffice_home') }}" class="btn btn-default">retour à l'accueil</a>
+	
+{% endblock %}
+

@@ -1,0 +1,34 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+<body>
+
+	<h1><strong style="color:#E08919;">Mon panier</strong></h1>
+       
+    <table class="table">
+    <div class="table text-center">
+            <div class="col-sm-4">   
+        <thead>
+            <tr>
+            
+            <th><center><font size="5">Vos circuits favoris</font></center></th>
+             </tr>
+                
+             {% for circuit in circuits %}
+     
+           <tr>
+                
+   			<td><font size="4">{{ circuit.description }}</font></td>
+   			<tr>
+   			
+       {% endfor  %}
+     
+               
+            </tr>
+        </thead>
+
+    </table>
+    </body>
+
+{% endblock %}	

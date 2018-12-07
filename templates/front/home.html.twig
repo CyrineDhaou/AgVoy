@@ -1,0 +1,240 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+{#Code pour le carrousel#}
+<div style="background-color:#ffffff;" >
+ <div id="myCarousel" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner" role="listbox">
+    <div class="item active">
+      <img src="Italie.jpg" alt="italie" style="width:100%;height:800px;">
+      <div class="carousel-caption">
+        <h3>Découvrez l'Italie</h3>      
+      </div>
+    </div>
+
+    <div class="item">
+      <img src="Ile de France.jpg" alt="paris" style="width:100%;height:800px;">
+      <div class="carousel-caption">
+        <h3>Visitez Paris</h3>  
+      </div>
+    </div>
+
+    <div class="item">
+      <img src="Vietnam.jpg" alt="Vietnam" style="width:100%;height:800px;">
+      <div class="carousel-caption">
+      <h3>Osez le vietnam</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- Left and right controls -->
+  <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div> 
+
+
+ <h1><strong style="color:#E08919;">Nos circuits programmés</strong></h1>
+ 
+
+      <br>
+      <br>
+      <br>
+    	
+        {% for programmationcircuit in programmationcircuits %}
+       
+        <div class="row text-center">
+        
+            <div class="col-sm-4">
+            <a  href='#demo{{ programmationcircuit.circuit.id  }}' data-toggle="collapse">
+            
+            <div class="thumbnail" style="background-color:#E0E5F3 ;"> 
+           <img src={{programmationcircuit.img}}  style="width:90% height:50px;">  
+               </a>
+                <div id='demo{{ programmationcircuit.circuit.id  }}' class="collapse">
+                <p><strong>Destination</strong>
+   			{{ programmationcircuit.circuit.description }}</p>
+   			<p><strong>Date de Depart</strong>
+   			{{ programmationcircuit.dateDepart|date('Y-m-d') }}</p>
+   
+            <p><strong>Nombre de Voyageurs</strong>
+            {{ programmationcircuit.nombrePersonnes }}</p>
+            
+            <p><strong>Prix</strong>
+            {{ programmationcircuit.prix }}
+            
+            </p>
+   			</div>
+   			<br>
+                <p>
+                {% if programmationcircuit.circuit.id in likes %}
+                        <a href="{{ path('likes', {id: programmationcircuit.circuit.id}) }}" class="btn btn-default">💔</a>
+                    {% else %}
+                        <a href="{{ path('likes', {id: programmationcircuit.circuit.id}) }}" class="btn btn-default">💓</a>
+                {% endif %}
+                
+            	<a href="{{ path('front_circuit_show', {id: programmationcircuit.id}) }}" class="btn btn-default">Détails</a>
+             
+                    
+				</p>
+				
+				</div>
+				</div>
+        {% else %}
+            <tr>
+                <td colspan="2">no  programmed circuits found</td>
+            </tr>
+            
+            
+        {% endfor %}
+        </div>
+    
+        
+ {#Code pour l'affichage des circuits non programmés lorsque un admin est connecté#}
+        
+      	{% if app.user %}
+      	    {% if is_granted('ROLE_ADMIN') %}
+      	    <h1><strong style="color:#E08919;">Nos circuits non programmés</strong></h1>
+      	     <div class="panel-group" id="accordion">
+ 
+  <div class="panel panel-default">
+      	          {% for circuit in circuits %}
+      	          
+       <br>
+  <br>	         
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1{{ circuit.id }}" >
+        <strong style="color:black;">Id</a>
+      </h4>
+    </div>
+    <div id="collapse1{{ circuit.id }}" class="panel-collapse collapse">
+      <div class="panel-body">{{ circuit.id }}</div>
+    </div>
+  
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2{{ circuit.id }}">
+        Description</a>
+      </h4>
+    </div>
+    <div id="collapse2{{ circuit.id }}" class="panel-collapse collapse">
+      <div class="panel-body">{{ circuit.description }}</div>
+    </div>
+  </div>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3{{ circuit.id }}">
+       Pays départ</a>
+      </h4>
+    </div>
+    <div id="collapse3{{ circuit.id }}" class="panel-collapse collapse">
+      <div class="panel-body"> {{circuit.paysDepart }}</div>
+    </div>
+  </div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse4{{ circuit.id }}">
+       Ville départ</a>
+      </h4>
+    </div>
+    <div id="collapse4{{ circuit.id }}" class="panel-collapse collapse">
+      <div class="panel-body"> {{circuit.villeDepart }}</div>
+    </div>
+  </div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse5{{ circuit.id }}">
+        Ville d'arrivée </a>
+      </h4>
+    </div>
+    <div id="collapse5{{ circuit.id }}" class="panel-collapse collapse">
+      <div class="panel-body">{{ circuit.villeArrivee }}</div>
+    </div>
+  </div>navigation
+ 
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse6{{ circuit.id }}">
+        Durée du circuit ?</a>
+      </h4>
+    </div>
+    <div id="collapse6{{ circuit.id }}" class="panel-collapse collapse">
+      <div class="panel-body">{{ circuit.dureeCircuit }}</div>
+    </div>
+  </div>
+  </div>
+ 
+  
+
+				
+        {% else %}
+            <tr>
+                <td colspan="2">no circuits found</td>
+            </tr>
+            
+            </div>
+        {% endfor %}
+        </div>
+      	{% endif %}
+      	{% endif %}        
+        </tbody>
+  </div>     
+{% endblock %}
+{% block footer %}
+	
+	</body>
+	
+     <table width=100% style="background-color:#F3CD49 ;">
+     <tr>
+     <td>
+     <br>
+     <br>
+      <p><center>Contactez nous !</center></p>
+       </td>
+       <tr>
+       <td>       
+      <p><center><span class="glyphicon glyphicon-map-marker"></span>TELECOM SUDPARIS</center></p>
+      <br>
+      </td>
+      <td>
+      <p><center><span class="glyphicon glyphicon-phone"></span>Numero: +33 06 45 72 32</center></p>
+      <br>
+      </td>
+    <td>
+      <p><center><span class="glyphicon glyphicon-envelope"></span>Email: Fabiola.espinoza@gmail.com</center></p>
+      <p><center><span class="glyphicon glyphicon-envelope"></span>Email: Cyrine.dhaou@gmail.com</center></p>
+      <br>
+      </td>
+      <tr>
+      </table>
+   
+    
+
+	
+	{% endblock %} {# footer #}
+
+
